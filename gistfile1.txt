@@ -1,0 +1,73 @@
+from bs4 import BeautifulSoup
+from urllib2 import urlopen
+from datetime import datetime
+import csv
+import sys
+import os
+
+BASE_URL = 'http://huntsville.craigslist.org''/search/web?query='
+
+def count_results(search_term):
+	count = 0
+	search_term = search_term.strip().replace(' ', '+')
+	search_url = BASE_URL.format(search_term)
+	soup = BeautifulSoup(urlopen(search_url).read())
+	rows = soup.find('div', 'content').find_all('p', 'row')
+	for row in rows:
+		count += 1
+	return count
+
+def parse_results(search_term):
+	results = []
+	search_term = search_term.strip().replace(' ', '+')
+	search_url = BASE_URL.format(search_term)
+	soup = BeautifulSoup(urlopen(search_url).read())
+	rows = soup.find('div', 'content').find_all('p', 'row')
+	for row in rows:
+		url = 'http://huntsville.craigslist.org' + row.a['href']
+		create_date = row.find('time').get('datetime')
+		title = row.find_all('a')[1].get_text()
+		results.append({'url': url, 'create_date': create_date, 'title': title})
+	return results
+
+HTML_count = count_results('HTML')
+HTML_parse = parse_results('HTML')
+
+python_count = count_results('Python')
+python_parse = parse_results('Python')
+
+ruby_count = count_results('Ruby')
+ruby_parse = parse_results('Ruby')
+
+javascript_count = count_results('Javascript')
+javascript_parse = parse_results('Javascript')
+
+sql_count = count_results('SQL')
+sql_parse = parse_results('SQL')
+
+php_count = count_results('PHP')
+php_parse = parse_results('PHP')
+
+css_count = count_results('CSS')
+css_parse = parse_results('CSS')
+
+jquery_count = count_results('jQuery')
+jquery_parse = parse_results('jQuery')
+
+flask_count = count_results('Flask')
+flask_parse = parse_results('Flask')
+
+cpp_count = count_results('C++')
+cpp_parse = parse_results('C++')
+
+ror_count = count_results('Ruby on Rails')
+ror_parse = parse_results('Ruby on Rails')
+
+swift_count = count_results('Swift')
+swift_parse = parse_results('Swift')
+
+print python_parse
+
+counts = {'HTML': HTML_count, 'Python': python_count, 'Ruby': ruby_count, 'Javascript': javascript_count, 'SQL': sql_count, 'PHP': php_count, 'CSS': css_count, 'jQuery': jquery_count, 'Flask': flask_count, 'C++': cpp_count, 'Ruby on Rails': ror_count, 'Swift': swift_count}
+
+print counts
