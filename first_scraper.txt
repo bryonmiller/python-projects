@@ -19,4 +19,4 @@ def lang_count(langs):
 		counts[lang] = count_results(lang)
 	return counts
 
-print lang_count(['HTML', 'Python', 'CSS'])
+print lang_count(['HTML', 'Python', 'CSS', Javascript])
